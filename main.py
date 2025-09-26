@@ -79,3 +79,28 @@ cursor.execute("DELETE FROM alunos WHERE id = ?", (1,))
 conexao.commit()
 #Sempre fechar a conexção co o banco de dados 
 conexao.close()
+
+def deletar_aluno(id_aluno):
+    try:
+        conexao = sqlite3.connect("escola:db")
+        cursor = conexao.cursor()
+
+        cursor.execute("DELETE FROM alunos WHERE id = ?", (id_aluno,))
+
+        #Confirmando as alteraçoes no banco 
+        conexao.commit()
+
+        #Verificando se algum aluno foir realmente deletado
+        if cursor.rowcount > 0:
+            print("Aluno foi removido com cusesso ")
+        else:
+            print("Nenhum aluno encontrado")
+    except Exception as erro:
+        #caso ocorra algun erro no banco
+        print(f"erro ao tentar excluir aluno {erro} ")
+    finally:
+        #sempre fechar a conexão
+        if conexao:
+            conexao.close()
+deletar= int(input("Digite o id do aluno que deseja deletar: "))
+deletar_aluno(deletar)
